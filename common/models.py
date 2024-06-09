@@ -5,12 +5,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-
 class UserManager(BaseUserManager):
     def create_user(self, email, nickname, password=None):
-        """
-        주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
-        """
         if not email:
             raise ValueError(_('Users must have an email address'))
 
@@ -23,32 +19,16 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    class UserManager(BaseUserManager):
-        def create_user(self, email, nickname, password=None):
-            if not email:
-                raise ValueError(_('Users must have an email address'))
-
-            user = self.model(
-                email=self.normalize_email(email),
-                nickname=nickname,
-            )
-
-            user.set_password(password)
-            user.save(using=self._db)
-            return user
-
-        def create_superuser(self, email, nickname, password=None):
-            user = self.create_user(
-                email=email,
-                password=password,
-                nickname=nickname,
-            )
-
-            user.is_superuser = True
-            user.is_staff = True
-            user.save(using=self._db)
-            return user
-
+    def create_superuser(self, email, nickname, password=None):
+        user = self.create_user(
+            email=email,
+            password=password,
+            nickname=nickname,
+        )
+        user.is_superuser = True
+        user.is_staff = True  # is_staff 속성을 True로 설정
+        user.save(using=self._db)
+        return user
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -65,11 +45,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name=_('Is active'),
         default=True
     )
+    is_staff = models.BooleanField(  # is_staff 속성 추가
+        verbose_name=_('Staff status'),
+        default=False
+    )
     date_joined = models.DateTimeField(
         verbose_name=_('Date joined'),
         default=timezone.now
     )
-    # 이 필드는 레거시 시스템 호환을 위해 추가할 수도 있다.
     salt = models.CharField(
         verbose_name=_('Salt'),
         max_length=10,
@@ -94,11 +77,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.nickname
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All superusers are staff
-        return self.is_superuser
 
     get_full_name.short_description = _('Full name')
