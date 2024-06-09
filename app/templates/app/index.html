@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block css %}
-{% endblock %}
+
 {% block content %}
-    <h1>Index</h1>
+<div class="container my-3">
+    <h2 class="text-center my-4">설문조사 목록</h2>
+    <div class="row">
+        {% for survey in surveys %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ survey.thumbnail_path.url }}" class="card-img-top" alt="Thumbnail">
+                <div class="card-body">
+                    <h5 class="card-title">{{ survey.title }}</h5>
+                    <p class="card-text">{{ survey.description }}</p>
+{#                    <a href="{% url 'survey_detail' survey.pk %}" class="btn btn-primary">자세히 보기</a>#}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

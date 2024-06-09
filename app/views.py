@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 
 from app.forms import SurveyForm
+from app.models import Survey
 
 
 def index(request):
-    return render(request, 'app/index.html')
+    surveys = Survey.objects.all()  # 모든 설문조사 가져오기
+    return render(request, 'app/index.html', {'surveys': surveys})
 
 
 def create_survey(request):
