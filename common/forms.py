@@ -1,7 +1,8 @@
 from django import forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.forms import AuthenticationForm
 from .models import User, UserManager
 
 
@@ -93,3 +94,22 @@ class UserChangeForm(forms.ModelForm):
 
     def clean_password(self):
         return self.initial["password"]
+
+
+class EmailLoginForm(AuthenticationForm):
+    username = forms.EmailField(label='이메일', max_length=254)
+
+    def clean(self):
+        email = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        if email and password:
+            self.user_cache = authenticate(self.request, username=email, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                    params={'username': self.username_field.verbose_name},
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+        return self.cleaned_data
