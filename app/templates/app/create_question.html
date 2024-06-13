@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container my-3">
+        <h2 class="text-center my-4">새로운 문항 추가</h2>
+        {{ questions }}
+        {{ survey }}
+        <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <div class="question-form">
+                <div class="mb-3">
+                    <label for="id_title" class="form-label">문항 제목</label>
+                    <input type="text" name="title" class="form-control" id="id_title">
+                </div>
+                <div class="mb-3">
+                    <label for="id_question_type" class="form-label">문항 타입</label>
+                    <select name="question_type" class="form-control" id="id_question_type">
+                        <option value="SUBJECTIVE">주관식</option>
+                        <option value="SINGLE_CHOICE">단일 선택</option>
+                        <option value="MULTIPLE_CHOICE">다중 선택</option>
+                    </select>
+                </div>
+                <div class="mb-3 options-container" id="options-container">
+                    <label for="id_options" class="form-label" id="option-label">선택지 (다중 선택일 경우)</label>
+                    <div class="options-inputs">
+                        <input type="text" name="options" class="form-control mb-2" placeholder="선택지를 입력하세요">
+                    </div>
+                    <button type="button" class="btn btn-secondary mb-3 add-option">옵션 추가</button>
+                </div>
+                <hr>
+            </div>
+
+            <button type="submit" name="add_question" value="true" class="btn btn-secondary">문항 추가</button>
+            <button type="submit" class="btn btn-primary">저장</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('.add-option').addEventListener('click', function () {
+            var container = document.querySelector('.options-inputs');
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'options';
+            input.className = 'form-control mb-2';
+            input.placeholder = '선택지를 입력하세요';
+            container.appendChild(input);
+        });
+
+        var questionTypeSelect = document.getElementById('id_question_type');
+        var optionsContainer = document.getElementById('options-container');
+        var optionsInputs = optionsContainer.querySelector('.options-inputs');
+
+        function toggleOptionsDisplay() {
+            if (questionTypeSelect.value === 'SUBJECTIVE') {
+                optionsContainer.style.display = 'none';
+                optionsInputs.innerHTML = '';
+            } else {
+                optionsContainer.style.display = 'block';
+            }
+        }
+
+        questionTypeSelect.addEventListener('change', toggleOptionsDisplay);
+        toggleOptionsDisplay();
+
+
+        document.getElementById('question-form').addEventListener('submit', function (event) {
+            if (questionTypeSelect.value !== 'SUBJECTIVE') {
+                var options = [];
+                document.querySelectorAll('.options-inputs input').forEach(function (input) {
+                    if (input.value.trim() !== '') {
+                        options.push(input.value.trim());
+                    }
+                });
+
+                var optionsInput = document.createElement('input');
+                optionsInput.type = 'hidden';
+                optionsInput.name = 'options_json';
+                optionsInput.value = JSON.stringify(options);
+                this.appendChild(optionsInput);
+            }
+        });
+    </script>
+{% endblock %}
