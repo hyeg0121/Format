@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, nickname, password=None):
         if not email:
@@ -29,6 +30,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True  # is_staff 속성을 True로 설정
         user.save(using=self._db)
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
