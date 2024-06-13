@@ -10,3 +10,10 @@ def load_json(value):
         return json.loads(value)
     except (json.JSONDecodeError, TypeError):
         return value
+
+
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    if dictionary is None:
+        return None
+    return dictionary.get(key)
