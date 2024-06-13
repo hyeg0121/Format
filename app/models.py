@@ -42,3 +42,18 @@ class Question(models.Model):
     class Meta:
         verbose_name = '설문 문항'
         verbose_name_plural = '설문 문항들'
+
+
+class Answer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='User')
+    survey = models.ForeignKey('app.Survey', on_delete=models.CASCADE, related_name='answers', verbose_name='설문조사')
+    responses = models.JSONField('Responses', default=list)
+
+    created_at = models.DateTimeField('Created At', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Answer'
+        verbose_name_plural = 'Answers'
+
+    def __str__(self):
+        return f'{self.user.nickname} - {self.survey.title}'
