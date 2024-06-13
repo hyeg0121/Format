@@ -12,7 +12,7 @@
     <div class="mb-4">
         <h5>{{ question.title }}</h5>
         <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
-        {% if question.question_type == "MULTIPLE_CHOICE" %}
+        {% if question.question_type == "SINGLE_CHOICE" %}
         <ul>
             {% for option in question.options %}
             <li>{{ option }}</li>
