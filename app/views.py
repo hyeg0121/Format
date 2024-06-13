@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import SurveyForm, QuestionForm, SurveyResponseForm
@@ -54,7 +56,18 @@ def create_question(request, survey_id):
 def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     questions = Question.objects.filter(survey=survey)
-    return render(request, 'app/survey_detail.html', {'survey': survey, 'questions': questions})
+
+    statistics = defaultdict(lambda: defaultdict(int))
+
+    for answer in survey.answers.all():
+        for question_id, response in answer.responses.items():
+            statistics[int(question_id)][response] += 1
+
+    return render(request, 'app/survey_detail.html', {
+        'survey': survey,
+        'questions': questions,
+        'statistics': statistics
+    })
 
 
 @login_required
@@ -72,7 +85,7 @@ def survey_response(request, survey_id):
     if request.method == 'POST':
         responses = {}
         for question in survey.questions.all():
-            key = f'question_{question.pk}'
+            key = str(question.pk)
             response = request.POST.get(key, '')  # 기본값으로 빈 문자열을 설정
             responses[key] = response
 
@@ -81,8 +94,3 @@ def survey_response(request, survey_id):
         return redirect('app:survey_detail', survey_id=survey_id)
 
     return render(request, 'app/survey_response.html', {'survey': survey})
-
-
-@login_required
-def survey_response_complete(request, answer_id):
-    return render(request, 'app/survey_response_complete.html')
