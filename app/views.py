@@ -56,3 +56,11 @@ def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     questions = Question.objects.filter(survey=survey)
     return render(request, 'app/survey_detail.html', {'survey': survey, 'questions': questions})
+
+
+@login_required
+def mypage(request):
+    user = request.user
+    surveys = Survey.objects.filter(user=user)
+
+    return render(request, 'app/mypage.html', {'user': user, 'surveys': surveys})
