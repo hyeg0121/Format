@@ -4,14 +4,14 @@
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-8">
-                <h4 class="mb-2">내 정보</h4>
+                <h4 class="mb-2">{{ user.nickname }}님의 정보</h4>
                 <ul>
                     <li>닉네임: {{ user.nickname }}</li>
                     <li>이메일: {{ user.email }}</li>
                     <li>가입일: {{ user.date_joined }}</li>
                 </ul>
             </div>
-            <h4 class="my-4">내가 만든 설문조사</h4>
+            <h6 class="my-4">내가 만든 설문조사</h6>
             {% if surveys %}
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -39,10 +39,35 @@
                     </table>
                 </div>
             {% else %}
-                <p>아직 만든 설문조사가 없습니다.</p>
+                <p class="text-secondary">아직 만든 설문조사가 없습니다.</p>
+            {% endif %}
+
+            <h6 class="my-4">내가 응답한 설문조사</h6>
+            {% if answers %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">설문조사 제목</th>
+                            <th scope="col">응답일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for answer in answers %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ answer.survey.title }}</td>
+                                <td>{{ answer.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-secondary">아직 응답한 설문조사가 없습니다.</p>
             {% endif %}
 
         </div>
-    </div>
     </div>
 {% endblock %}
