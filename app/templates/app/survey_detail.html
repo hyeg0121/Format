@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% load custom_filters %}  <!-- custom_filters 로드 추가 -->
+
 {% block content %}
 <div class="container my-3">
     <h2 class="text-center my-4">{{ survey.title }}</h2>
@@ -14,9 +17,11 @@
         <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
         {% if question.question_type == "SINGLE_CHOICE" %}
         <ul>
-            {% for option in question.options %}
+            {% with options_list=question.options|load_json %}
+            {% for option in options_list %}
             <li>{{ option }}</li>
             {% endfor %}
+            {% endwith %}
         </ul>
         {% endif %}
     </div>
