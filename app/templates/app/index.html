@@ -3,16 +3,19 @@
 {% block content %}
     {% include 'app/banner.html' %}
     <div class="container my-3">
-        <small class="my-4">최근 업로드 된 설문조사</small>
+        <div class="my-4">최근 업로드 된 설문조사</div>
         <div class="row">
             {% for survey in surveys %}
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ survey.thumbnail_path.url }}" class="card-img-top" alt="Thumbnail">
+                    <div class="card h-100">
+                        <img src="{{ survey.thumbnail_path.url }}" class="card-img-top h-100" alt="Thumbnail">
                         <div class="card-body">
                             <h5 class="card-title">{{ survey.title }}</h5>
                             <p class="card-text">{{ survey.description }}</p>
                             <a href="{% url 'app:survey_detail' survey.pk %}" class="btn btn-primary">자세히 보기</a>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-body-secondary">설문 마감일: {{ survey.end_date }}</small>
                         </div>
                     </div>
                 </div>
