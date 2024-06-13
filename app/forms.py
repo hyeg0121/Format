@@ -22,6 +22,7 @@ class SurveyForm(forms.ModelForm):
             'is_searchable': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
+
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
@@ -32,4 +33,5 @@ class QuestionForm(forms.ModelForm):
         }
 
 
-QuestionFormSet = forms.formset_factory(QuestionForm, extra=1)
+class SurveyResponseForm(forms.Form):
+    pass  # Dynamic fields are added in the view based on the survey questions
