@@ -61,8 +61,9 @@ def survey_detail(request, survey_id):
 def mypage(request):
     user = request.user
     surveys = Survey.objects.filter(user=user)
+    answers = Answer.objects.filter(user=user).select_related('survey')
 
-    return render(request, 'app/mypage.html', {'user': user, 'surveys': surveys})
+    return render(request, 'app/mypage.html', {'user': user, 'surveys': surveys, 'answers': answers})
 
 
 @login_required
