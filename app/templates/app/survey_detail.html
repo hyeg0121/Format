@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-3">
+    <h2 class="text-center my-4">{{ survey.title }}</h2>
+    <p class="text-muted text-center">{{ survey.description }}</p>
+    <p class="text-center"><small>작성자: {{ survey.user.username }} | 생성 날짜: {{ survey.created_at }}</small></p>
+    <hr>
+
+    <h4 class="my-4">문항 목록</h4>
+    {% for question in survey.questions.all %}
+    <div class="mb-4">
+        <h5>{{ question.title }}</h5>
+        <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
+        {% if question.question_type == "MULTIPLE_CHOICE" %}
+        <ul>
+            {% for option in question.options %}
+            <li>{{ option }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <hr>
+    {% endfor %}
+
+    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-primary">문항 추가</a>
+</div>
+{% endblock %}
