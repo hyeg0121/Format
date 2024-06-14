@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import SurveyForm, QuestionForm, SurveyResponseForm
+from .forms import SurveyForm, QuestionForm, SurveyResponseForm, CommentForm
 from .models import Survey, Question, Answer, Comment
 
 
@@ -65,12 +65,24 @@ def survey_detail(request, survey_id):
         for question_id, response in answer.responses.items():
             statistics[int(question_id)][response] += 1
 
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.survey = survey
+            comment.save()
+            return redirect('app:survey_detail', survey_id=survey.id)
+    else:
+        comment_form = CommentForm()
+
     return render(request, 'app/survey/survey_detail.html', {
         'survey': survey,
         'questions': questions,
         'statistics': statistics,
         'is_owner': is_owner,
         'comments': comments,
+        'comment_form': comment_form,
     })
 
 @login_required
