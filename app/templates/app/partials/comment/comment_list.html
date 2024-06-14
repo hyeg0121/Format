@@ -1,0 +1,12 @@
+<h6>댓글 목록</h6>
+{% if comments %}
+    {% for comment in comments %}
+        <div class="mb-2">
+            <strong>{{ comment.user.nickname }}</strong>
+            <p>{{ comment.contents }}</p>
+            <small class="text-muted">{{ comment.created_at }}</small>
+        </div>
+    {% endfor %}
+{% else %}
+    <small>아직 댓글이 없습니다.</small>
+{% endif %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="container my-3">
+        <div class="row">
+            {% include 'app/partials/survey/survey_image.html' %}
+            {% include 'app/partials/survey/survey_info.html' %}
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                {% include 'app/partials/question/question_list.html' %}
+            </div>
+            <div class="col-md-6">
+                {% include 'app/partials/comment/comment_list.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

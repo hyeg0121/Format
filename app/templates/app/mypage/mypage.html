@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-8">
+                {% include 'app/partials/mypage/profile_info.html' %}
+            </div>
+            <div class="col-md-12">
+                {% include 'app/partials/mypage/my_surveys.html' %}
+                {% include 'app/partials/mypage/my_answers.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

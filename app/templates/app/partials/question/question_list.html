@@ -1,0 +1,21 @@
+{% load custom_filters %}
+<h6>문항 목록</h6>
+{% for question in survey.questions.all %}
+    <div class="mb-4">
+        <h5>{{ question.title }}</h5>
+        <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
+        {% if question.question_type == "SINGLE_CHOICE" %}
+            <ul>
+                {% with options_list=question.options|load_json %}
+                    {% for option in options_list %}
+                        <li>{{ option }} - {{ statistics|get_item:question.pk|get_item:option|default:0 }} votes</li>
+                    {% endfor %}
+                {% endwith %}
+            </ul>
+        {% endif %}
+    </div>
+    <hr>
+{% endfor %}
+{% if is_owner %}
+    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-primary">문항 추가</a>
+{% endif %}

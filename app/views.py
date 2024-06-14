@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import SurveyForm, QuestionForm, SurveyResponseForm
-from .models import Survey, Question, Answer
+from .models import Survey, Question, Answer, Comment
 
 
 def index(request):
@@ -22,7 +22,7 @@ def create_survey(request):
             return redirect('app:create_question', survey_id=survey.id)  # 문항 추가 페이지로 리디렉션
     else:
         form = SurveyForm()
-    return render(request, 'app/create_survey.html', {'form': form})
+    return render(request, 'app/survey/create_survey.html', {'form': form})
 
 
 @login_required
@@ -50,29 +50,28 @@ def create_question(request, survey_id):
     else:
         form = QuestionForm()
 
-    return render(request, 'app/create_question.html', {'form': form, 'survey': survey, 'questions': questions})
+    return render(request, 'app/question/create_question.html', {'form': form, 'survey': survey, 'questions': questions})
 
 
 @login_required
 def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
     questions = survey.questions.all()
-
+    is_owner = (survey.user == request.user)
+    comments = Comment.objects.filter(survey=survey).select_related('user')
     statistics = defaultdict(lambda: defaultdict(int))
 
     for answer in survey.answers.all():
         for question_id, response in answer.responses.items():
             statistics[int(question_id)][response] += 1
 
-    is_owner = (survey.user == request.user)
-
-    return render(request, 'app/survey_detail.html', {
+    return render(request, 'app/survey/survey_detail.html', {
         'survey': survey,
         'questions': questions,
         'statistics': statistics,
         'is_owner': is_owner,
+        'comments': comments,
     })
-
 
 @login_required
 def mypage(request):
@@ -80,7 +79,7 @@ def mypage(request):
     surveys = Survey.objects.filter(user=user)
     answers = Answer.objects.filter(user=user).select_related('survey')
 
-    return render(request, 'app/mypage.html', {'user': user, 'surveys': surveys, 'answers': answers})
+    return render(request, 'app/mypage/mypage.html', {'user': user, 'surveys': surveys, 'answers': answers})
 
 
 @login_required
@@ -97,4 +96,4 @@ def survey_response(request, survey_id):
         Answer.objects.create(user=request.user, survey=survey, responses=responses)
         return redirect('app:survey_detail', survey_id=survey_id)
 
-    return render(request, 'app/survey_response.html', {'survey': survey})
+    return render(request, 'app/response/survey_response.html', {'survey': survey})
