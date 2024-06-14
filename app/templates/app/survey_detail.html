@@ -6,7 +6,7 @@
     <div class="container my-3">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ survey.thumbnail_path.url }}" alt="" style="max-width: 100%; object-fit: contain">
+                <img src="{{ survey.thumbnail_path.url }}" alt="" style="width: 100%; height: 320px; object-fit: cover">
             </div>
             <div class="col-md-6 d-flex flex-column">
                 <div>
@@ -16,34 +16,50 @@
                     <small class="text-muted">설문 업로드 날짜: {{ survey.created_at }}</small> <br>
                     <small class="text-muted">설문 마감 날짜: {{ survey.end_date }}</small> <br>
                 </div>
-                <div class="mt-auto">
-                    <a href="{% url 'app:survey_response' survey_id=survey.id %}" class="btn btn-primary">참여하기</a>
-                </div>
+                {% if is_owner %}
+                    <div class="btn-group mt-auto" role="group" aria-label="Basic mixed styles example"
+                         style="width: 50%">
+                        <button type="button" class="btn btn-outline-dark">수정하기</button>
+                        <button type="button" class="btn btn-outline-dark">삭제하기</button>
+                    </div>
+                {% else %}
+                    <div class="mt-auto">
+                        <a href="{% url 'app:survey_response' survey_id=survey.id %}" class="btn btn-primary">참여하기</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <hr>
 
-        <h4 class="my-4">문항 목록</h4>
-        {% for question in survey.questions.all %}
-            <div class="mb-4">
-                <h5>{{ question.title }}</h5>
-                <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
-                {% if question.question_type == "SINGLE_CHOICE" %}
-                    <ul>
-                        {% with options_list=question.options|load_json %}
-                            {% for option in options_list %}
-                                <li>{{ option }} - {{ statistics|get_item:question.pk|get_item:option|default:0 }}
-                                    votes
-                                </li>
-                            {% endfor %}
-                        {% endwith %}
-                    </ul>
+        <h6 class="my-4">문항 목록</h6>
+        <div class="row">
+            <div class="col col-md-6">
+                {% for question in survey.questions.all %}
+                    <div class="mb-4">
+                        <h5>{{ question.title }}</h5>
+                        <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
+                        {% if question.question_type == "SINGLE_CHOICE" %}
+                            <ul>
+                                {% with options_list=question.options|load_json %}
+                                    {% for option in options_list %}
+                                        <li>{{ option }}
+                                            - {{ statistics|get_item:question.pk|get_item:option|default:0 }}
+                                            votes
+                                        </li>
+                                    {% endfor %}
+                                {% endwith %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <hr>
+                {% endfor %}
+                {% if is_owner %}
+                    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-primary">문항 추가</a>
                 {% endif %}
             </div>
-            <hr>
-        {% endfor %}
 
-        <a href="{% url 'app:create_question' survey.id %}" class="btn btn-primary">문항 추가</a>
+        </div>
+
     </div>
 {% endblock %}

@@ -53,9 +53,10 @@ def create_question(request, survey_id):
     return render(request, 'app/create_question.html', {'form': form, 'survey': survey, 'questions': questions})
 
 
+@login_required
 def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
-    questions = Question.objects.filter(survey=survey)
+    questions = survey.questions.all()
 
     statistics = defaultdict(lambda: defaultdict(int))
 
@@ -63,10 +64,13 @@ def survey_detail(request, survey_id):
         for question_id, response in answer.responses.items():
             statistics[int(question_id)][response] += 1
 
+    is_owner = (survey.user == request.user)
+
     return render(request, 'app/survey_detail.html', {
         'survey': survey,
         'questions': questions,
-        'statistics': statistics
+        'statistics': statistics,
+        'is_owner': is_owner,
     })
 
 
