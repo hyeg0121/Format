@@ -138,3 +138,16 @@ def survey_update(request, survey_id):
         'survey': survey,
         'form': form,
     })
+
+
+@login_required
+def survey_delete(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    if request.user != survey.user:
+        pass
+
+    if request.method == 'POST':
+        survey.delete()
+        return redirect('app:my_page')
+
+    return render(request, 'app/survey/survey_delete.html', {'survey': survey})

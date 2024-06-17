@@ -8,7 +8,7 @@
                 <th scope="col">제목</th>
                 <th scope="col">설명</th>
                 <th scope="col">생성일</th>
-                <th scope="col">상세보기</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -18,7 +18,16 @@
                     <td>{{ survey.title }}</td>
                     <td>{{ survey.description }}</td>
                     <td>{{ survey.created_at }}</td>
-                    <td><a href="{% url 'app:survey_detail' survey.id %}" class="btn btn-primary btn-sm">상세보기</a></td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'app:survey_detail' survey.id %}"
+                               class="btn btn-outline-dark btn-sm">상세보기</a>
+                            <a href="{% url 'app:survey_update' survey.id %}"
+                               class="btn btn-outline-dark btn-sm">수정하기</a>
+                            <a href="{% url 'app:survey_delete' survey.id %}"
+                               class="btn btn-outline-dark btn-sm">삭제하기</a>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

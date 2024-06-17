@@ -8,8 +8,8 @@
     </div>
     {% if is_owner %}
         <div class="btn-group mt-auto" role="group" aria-label="Basic mixed styles example" style="width: 50%">
-            <a href="{% url 'app:survey_update' survey_id=survey.id %}" type="button" class="btn btn-outline-dark">수정하기</a>
-            <button type="button" class="btn btn-outline-dark">삭제하기</button>
+            <a href="{% url 'app:survey_update' survey_id=survey.id %}" class="btn btn-outline-dark">수정하기</a>
+            <a href="{% url 'app:survey_delete' survey_id=survey.id %}" class="btn btn-outline-dark">삭제하기</a>
         </div>
     {% else %}
         <div class="mt-auto">

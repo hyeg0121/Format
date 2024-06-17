@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="min-height: 80vh">
+    <h4 class="mt-4 mb-4">설문조사 삭제</h4>
+    <p>아래 설문조사를 삭제하시겠습니까? 설문조사에 관한 문항, 응답, 댓글이 모두 삭제됩니다.</p>
+    <ul>
+        <li><strong>제목:</strong> {{ survey.title }}</li>
+        <li><strong>설명:</strong> {{ survey.description }}</li>
+        <li><strong>생성일:</strong> {{ survey.created_at }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">삭제하기</button>
+        <a href="{% url 'app:survey_detail' survey_id=survey.id %}" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+{% endblock %}
