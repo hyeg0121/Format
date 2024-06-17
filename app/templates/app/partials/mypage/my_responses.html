@@ -10,11 +10,11 @@
             </tr>
             </thead>
             <tbody>
-            {% for answer in answers %}
+            {% for response in responses %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ answer.survey.title }}</td>
-                    <td>{{ answer.created_at }}</td>
+                    <td>{{ response.survey.title }}</td>
+                    <td>{{ response.created_at }}</td>
                 </tr>
             {% endfor %}
             </tbody>

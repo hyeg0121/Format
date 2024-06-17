@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from ..models import Survey, Answer
+from ..models import Survey, Response
 
 
 @login_required
@@ -14,7 +14,7 @@ def survey_response(request, survey_id):
             responses[key] = response
 
         # 응답 저장
-        Answer.objects.create(user=request.user, survey=survey, responses=responses)
+        Response.objects.create(user=request.user, survey=survey, responses=responses)
         return redirect('app:survey_detail', survey_id=survey_id)
 
     return render(request, 'app/response/survey_response.html', {'survey': survey})

@@ -43,7 +43,7 @@ class Question(models.Model):
         verbose_name_plural = '설문 문항'
 
 
-class Answer(models.Model):
+class Response(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='응답자')
     survey = models.ForeignKey('app.Survey', on_delete=models.CASCADE, related_name='answers', verbose_name='설문조사')
     responses = models.JSONField(default=list, verbose_name='응답')
