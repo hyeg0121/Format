@@ -2,16 +2,32 @@
 
 {% block content %}
     <div class="container my-3">
-        <h2 class="text-center my-4">새로운 문항 추가</h2>
-        {{ questions }}
-        {{ survey }}
-        <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}" style="min-height: 80vh">
+        {% include 'app/question/create_question/partials/survey_info.html' %}
+        {% if questions %}
+            <table class="table table-hover mb-4">
+                <tr>
+                    <th>번호</th>
+                    <th>문항 이름</th>
+                    <th>문항 타입</th>
+                </tr>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ question.title }}</td>
+                        <td>{{ question.question_type }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}"
+              style="min-height: 80vh">
             {% csrf_token %}
             {{ formset.management_form }}
             <div class="question-form">
                 <div class="mb-3">
                     <label for="id_title" class="form-label">문항 제목</label>
-                    <input type="text" name="title" class="form-control" id="id_title">
+                    <input type="text" name="title" class="form-control" id="id_title" autofocus>
                 </div>
                 <div class="mb-3">
                     <label for="id_question_type" class="form-label">문항 타입</label>
