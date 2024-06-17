@@ -2,23 +2,8 @@
 
 {% block content %}
     <div class="container my-3">
-        {% include 'app/question/create_question/partials/survey_info.html' %}
-        {% if questions %}
-            <table class="table table-hover mb-4">
-                <tr>
-                    <th>번호</th>
-                    <th>문항 이름</th>
-                    <th>문항 타입</th>
-                </tr>
-                {% for question in questions %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ question.title }}</td>
-                        <td>{{ question.question_type }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
+        {% include 'app/partials/survey/survey_brief.html' %}
+        {% include 'app/partials/question/question_table.html' %}
 
         <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}"
               style="min-height: 80vh">

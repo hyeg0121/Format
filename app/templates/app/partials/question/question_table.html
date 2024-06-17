@@ -1,0 +1,16 @@
+{% if questions %}
+    <table class="table table-hover mb-4">
+        <tr>
+            <th>번호</th>
+            <th>문항 이름</th>
+            <th>문항 타입</th>
+        </tr>
+        {% for question in questions %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ question.title }}</td>
+                <td>{{ question.question_type }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
