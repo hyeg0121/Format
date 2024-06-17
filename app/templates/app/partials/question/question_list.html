@@ -17,5 +17,5 @@
     <hr>
 {% endfor %}
 {% if is_owner %}
-    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-primary">문항 추가</a>
+    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-outline-secondary">문항 추가</a>
 {% endif %}

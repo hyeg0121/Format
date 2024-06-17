@@ -5,7 +5,7 @@
         <h2 class="text-center my-4">새로운 문항 추가</h2>
         {{ questions }}
         {{ survey }}
-        <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}">
+        <form method="post" id="question-form" action="{% url 'app:create_question' survey.id %}" style="min-height: 80vh">
             {% csrf_token %}
             {{ formset.management_form }}
             <div class="question-form">

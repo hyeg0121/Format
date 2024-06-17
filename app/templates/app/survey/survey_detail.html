@@ -3,7 +3,7 @@
 {% load custom_filters %}
 
 {% block content %}
-    <div class="container my-3">
+    <div class="container my-3" style="min-height: 80vh">
         <div class="row">
             {% include 'app/partials/survey/survey_image.html' %}
             {% include 'app/partials/survey/survey_info.html' %}
@@ -15,7 +15,6 @@
                 {% include 'app/partials/question/question_list.html' %}
             </div>
             <div class="col-md-6">
-
                 {% include 'app/partials/comment/commnet_create.html' %}
                 <hr>
                 {% include 'app/partials/comment/comment_list.html' %}
