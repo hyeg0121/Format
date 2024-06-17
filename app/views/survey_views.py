@@ -1,14 +1,8 @@
 from collections import defaultdict
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import SurveyForm, QuestionForm, SurveyResponseForm, CommentForm
-from .models import Survey, Question, Answer, Comment
-
-
-def index(request):
-    surveys = Survey.objects.all()  # 모든 설문조사 가져오기
-    return render(request, 'app/index.html', {'surveys': surveys})
+from ..forms import SurveyForm, QuestionForm, SurveyResponseForm, CommentForm
+from ..models import Survey, Question, Answer, Comment
 
 
 @login_required
@@ -85,22 +79,6 @@ def survey_detail(request, survey_id):
         'comments': comments,
         'comment_form': comment_form,
     })
-
-
-@login_required
-def mypage(request):
-    user = request.user
-    surveys = Survey.objects.filter(user=user)
-    answers = Answer.objects.filter(user=user).select_related('survey')
-    comments = Comment.objects.filter(user=user).select_related('survey')
-
-    return render(request, 'app/mypage/mypage.html',
-                  {
-                      'user': user,
-                      'surveys': surveys,
-                      'answers': answers,
-                      'comments': comments,
-                  })
 
 
 @login_required
