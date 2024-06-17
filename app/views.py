@@ -118,3 +118,23 @@ def survey_response(request, survey_id):
         return redirect('app:survey_detail', survey_id=survey_id)
 
     return render(request, 'app/response/survey_response.html', {'survey': survey})
+
+
+@login_required
+def survey_update(request, survey_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    if request.user != survey.user:
+        pass
+
+    if request.method == 'POST':
+        form = SurveyForm(request.POST, instance=survey)
+        if form.is_valid():
+            form.save()
+            return redirect('app:survey_detail', survey_id=survey_id)
+    else:
+        form = SurveyForm(instance=survey)
+
+    return render(request, 'app/survey/survey_update.html', {
+        'survey': survey,
+        'form': form,
+    })

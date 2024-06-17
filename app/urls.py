@@ -10,4 +10,6 @@ urlpatterns = [
     path('survey/<int:survey_id>/questions/', views.create_question, name='create_question'),
     path('survey/<int:survey_id>/', views.survey_detail, name='survey_detail'),
     path('survey/<int:survey_id>/response/', views.survey_response, name='survey_response'),
+    path('survey/<int:survey_id>/update/', views.survey_update, name='survey_update'),
+    # path('survey/<int:survey_id>/delete/', views.survey_delete, name='survey_delete'),
 ]
