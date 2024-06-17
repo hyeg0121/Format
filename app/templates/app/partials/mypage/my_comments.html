@@ -1,0 +1,27 @@
+<h6 class="my-4">내가 작성한 댓글</h6>
+{% if surveys %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">내용</th>
+                <th scope="col">생성일</th>
+                <th scope="col">댓글을 작성한 설문조사</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ comment.contents }}</td>
+                    <td>{{ comment.survey.created_at }}</td>
+                    <td><a href="{% url 'app:survey_detail' comment.survey.id %}">{{ comment.survey.title }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p class="text-secondary">아직 만든 설문조사가 없습니다.</p>
+{% endif %}

@@ -50,7 +50,8 @@ def create_question(request, survey_id):
     else:
         form = QuestionForm()
 
-    return render(request, 'app/question/create_question.html', {'form': form, 'survey': survey, 'questions': questions})
+    return render(request, 'app/question/create_question.html',
+                  {'form': form, 'survey': survey, 'questions': questions})
 
 
 @login_required
@@ -85,13 +86,21 @@ def survey_detail(request, survey_id):
         'comment_form': comment_form,
     })
 
+
 @login_required
 def mypage(request):
     user = request.user
     surveys = Survey.objects.filter(user=user)
     answers = Answer.objects.filter(user=user).select_related('survey')
+    comments = Comment.objects.filter(user=user).select_related('survey')
 
-    return render(request, 'app/mypage/mypage.html', {'user': user, 'surveys': surveys, 'answers': answers})
+    return render(request, 'app/mypage/mypage.html',
+                  {
+                      'user': user,
+                      'surveys': surveys,
+                      'answers': answers,
+                      'comments': comments,
+                  })
 
 
 @login_required
