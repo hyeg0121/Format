@@ -1,7 +1,7 @@
 <h6>댓글 목록</h6>
 {% if comments %}
     {% for comment in comments %}
-        <div class="mb-2">
+        <div class="mb-2 py-2 px-4 border">
             <strong>{{ comment.user.nickname }}</strong>
             <p>{{ comment.contents }}</p>
             <small class="text-muted">{{ comment.created_at }}</small>
