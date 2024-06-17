@@ -1,5 +1,5 @@
 <h6 class="my-4">내가 작성한 댓글</h6>
-{% if surveys %}
+{% if comments %}
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -23,5 +23,5 @@
         </table>
     </div>
 {% else %}
-    <p class="text-secondary">아직 만든 설문조사가 없습니다.</p>
+    <p class="text-secondary">아직 작성한 댓글이 없습니다.</p>
 {% endif %}
