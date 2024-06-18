@@ -4,3 +4,5 @@
     <li>이메일: {{ user.email }}</li>
     <li>가입일: {{ user.date_joined }}</li>
 </ul>
+
+<a href="{% url 'common:logout' %}" class="btn btn-outline-secondary">로그아웃</a>

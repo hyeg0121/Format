@@ -35,3 +35,4 @@ class EmailLoginView(FormView):
             return redirect('app:index')  # 로그인 후 리디렉션할 URL
         return self.form_invalid(form)
 
+
