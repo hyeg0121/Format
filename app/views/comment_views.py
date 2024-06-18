@@ -21,3 +21,16 @@ def comment_update(request, comment_id):
         'comment': comment,
         'form': form,
     })
+
+
+@login_required
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.user:
+        pass
+
+    if request.method == "POST":
+        comment.delete()
+        return redirect('app:user_info')
+
+    return render(request, 'app/page/comment/comment_delete.html', context={'comment': comment})

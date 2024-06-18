@@ -13,7 +13,7 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">삭제하기</button>
-        <a href="{% url 'app:survey_detail' survey_id=survey.id %}" class="btn btn-secondary">취소</a>
+        <a href="{% url 'app:user_info' survey_id=survey.id %}" class="btn btn-secondary">취소</a>
     </form>
 </div>
 {% endblock %}

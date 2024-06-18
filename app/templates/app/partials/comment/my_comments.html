@@ -22,7 +22,7 @@
                          <div class="btn-group" role="group">
                             <a href="{% url 'app:comment_update' comment_id=comment.id %}"
                                class="btn btn-outline-secondary btn-sm">수정하기</a>
-                            <a href="#"
+                            <a href="{% url 'app:comment_delete' comment_id=comment.id %}"
                                class="btn btn-outline-secondary btn-sm">삭제하기</a>
                         </div>
                     </td>
