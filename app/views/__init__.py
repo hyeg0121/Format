@@ -3,3 +3,4 @@ from .survey_views import *
 from .user_views import *
 from .question_views import *
 from .response_views import *
+from .comment_views import *
