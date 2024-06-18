@@ -9,10 +9,13 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'app:create_survey' %}">설문조사 만들기</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'app:create_survey' %}">설문조사 만들기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'app:user_info' %}">마이페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'common:logout' %}">로그아웃</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
