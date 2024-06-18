@@ -13,12 +13,12 @@ class SurveyForm(forms.ModelForm):
 
     class Meta:
         model = Survey
-        fields = ['title', 'description', 'thumbnail_path', 'is_searchable', 'end_date']
+        fields = ['title', 'description', 'thumbnail', 'is_searchable', 'end_date']
         widgets = {
             'end_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'thumbnail_path': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'thumbnail': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'is_searchable': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
@@ -34,7 +34,7 @@ class QuestionForm(forms.ModelForm):
 
 
 class SurveyResponseForm(forms.Form):
-    pass  # Dynamic fields are added in the view based on the survey questions
+    pass
 
 
 class CommentForm(forms.ModelForm):

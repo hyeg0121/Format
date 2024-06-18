@@ -8,7 +8,7 @@
             {% for survey in surveys %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="{{ survey.thumbnail_path.url }}" class="card-img-top" alt="Thumbnail" style="height: 320px; object-fit: cover">
+                        <img src="{{ survey.thumbnail.url }}" class="card-img-top" alt="Thumbnail" style="height: 320px; object-fit: cover">
                         <div class="card-body">
                             <h5 class="card-title">{{ survey.title }}</h5>
                             <p class="card-text">{{ survey.description }}</p>
