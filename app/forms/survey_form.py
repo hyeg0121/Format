@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django import forms
-from .models import Survey, Question, Comment
+from ..models import Survey
 
 
 class SurveyForm(forms.ModelForm):
@@ -28,28 +28,3 @@ class SurveyForm(forms.ModelForm):
             'is_searchable': forms.CheckboxInput(attrs={'class': 'form-check-input', 'checked': 'checked'}),
         }
 
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['title', 'question_type']
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'question_type': forms.Select(attrs={'class': 'form-control'}),
-        }
-
-
-class SurveyResponseForm(forms.Form):
-    pass
-
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['contents']
-        widgets = {
-            'contents': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-        }
-        labels = {
-            'contents': '댓글을 입력하세요',
-        }
