@@ -29,5 +29,5 @@ def create_question(request, survey_id):
     else:
         form = QuestionForm()
 
-    return render(request, 'app/question/create_question.html',
+    return render(request, 'app/page/question/create_question.html',
                   {'form': form, 'survey': survey, 'questions': questions})

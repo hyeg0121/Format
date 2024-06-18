@@ -16,7 +16,7 @@ def create_survey(request):
             return redirect('app:create_question', survey_id=survey.id)  # 문항 추가 페이지로 리디렉션
     else:
         form = SurveyForm()
-    return render(request, 'app/survey/create_survey.html', {'form': form})
+    return render(request, 'app/page/survey/create_survey.html', {'form': form})
 
 
 @login_required
@@ -42,7 +42,7 @@ def survey_detail(request, survey_id):
     else:
         comment_form = CommentForm()
 
-    return render(request, 'app/survey/survey_detail.html', {
+    return render(request, 'app/page/survey/survey_detail.html', {
         'survey': survey,
         'questions': questions,
         'statistics': statistics,
@@ -66,7 +66,7 @@ def survey_update(request, survey_id):
     else:
         form = SurveyForm(instance=survey)
 
-    return render(request, 'app/survey/survey_update.html', {
+    return render(request, 'app/page/survey/survey_update.html', {
         'survey': survey,
         'form': form,
     })
@@ -82,4 +82,4 @@ def survey_delete(request, survey_id):
         survey.delete()
         return redirect('app:my_page')
 
-    return render(request, 'app/survey/survey_delete.html', {'survey': survey})
+    return render(request, 'app/page/survey/survey_delete.html', {'survey': survey})

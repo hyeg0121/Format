@@ -11,7 +11,7 @@ def user_info(request):
     responses = Response.objects.filter(user=user).select_related('survey')
     comments = Comment.objects.filter(user=user).select_related('survey')
 
-    return render(request, 'app/user/user_info.html',
+    return render(request, 'app/page/user/user_info.html',
                   {
                       'user': user,
                       'surveys': surveys,

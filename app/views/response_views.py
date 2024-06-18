@@ -17,6 +17,6 @@ def survey_response(request, survey_id):
         Response.objects.create(user=request.user, survey=survey, responses=responses)
         return redirect('app:survey_detail', survey_id=survey_id)
 
-    return render(request, 'app/response/survey_response.html', {'survey': survey})
+    return render(request, 'app/page/response/survey_response.html', {'survey': survey})
 
 
