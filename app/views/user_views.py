@@ -5,13 +5,13 @@ from app.models import Survey, Response, Comment
 
 
 @login_required
-def mypage(request):
+def user_info(request):
     user = request.user
     surveys = Survey.objects.filter(user=user)
     responses = Response.objects.filter(user=user).select_related('survey')
     comments = Comment.objects.filter(user=user).select_related('survey')
 
-    return render(request, 'app/mypage/mypage.html',
+    return render(request, 'app/user/user_info.html',
                   {
                       'user': user,
                       'surveys': surveys,
