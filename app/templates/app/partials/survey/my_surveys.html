@@ -16,8 +16,8 @@
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ survey.title }}</td>
-                    <td>{{ survey.description }}</td>
-                    <td>{{ survey.created_at }}</td>
+                    <td>{{ survey.description|slice:":20" }}...</td>
+                    <td>{{ survey.created_at|date:"Y-m-d" }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <a href="{% url 'app:survey_detail' survey.id %}"
