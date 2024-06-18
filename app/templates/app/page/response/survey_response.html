@@ -18,8 +18,13 @@
                             <div class="form-check">
                                 {% with options_list=question.options|load_json %}
                                     {% for option in options_list %}
-                                        <input class="form-check-input" type="radio" name="question_{{ question.pk }}"
-                                               id="option_{{ option }}" value="{{ option }}">
+                                        {% if forloop.first %}
+                                            <input class="form-check-input" type="radio" name="question_{{ question.pk }}"
+                                                   id="option_{{ option }}" value="{{ option }}" checked>
+                                        {% else %}
+                                            <input class="form-check-input" type="radio" name="question_{{ question.pk }}"
+                                                   id="option_{{ option }}" value="{{ option }}">
+                                        {% endif %}
                                         <label class="form-check-label" for="option_{{ option }}">
                                             {{ option }}
                                         </label><br>
