@@ -16,7 +16,7 @@ def create_survey(request):
             return redirect('app:create_question', survey_id=survey.id)  # 문항 추가 페이지로 리디렉션
     else:
         form = SurveyForm()
-    return render(request, 'app/page/survey/create_survey.html', {'form': form})
+    return render(request, 'app/page/survey/survey_create.html', {'form': form})
 
 
 @login_required
