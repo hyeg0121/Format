@@ -11,7 +11,7 @@
                         <img src="{{ survey.thumbnail.url }}" class="card-img-top" alt="Thumbnail" style="height: 320px; object-fit: cover">
                         <div class="card-body">
                             <h5 class="card-title">{{ survey.title }}</h5>
-                            <p class="card-text">{{ survey.description }}</p>
+                            <p class="card-text">{{ survey.description|slice:":100" }}</p>
                             <a href="{% url 'app:survey_detail' survey.pk %}" class="btn btn-primary">자세히 보기</a>
                         </div>
                         <div class="card-footer">
