@@ -8,15 +8,13 @@ from common.forms import UserCreationForm, EmailLoginForm
 
 
 def signup(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = form.save()
+            # 사용자를 로그인 시킵니다
             login(request, user)
-            return redirect('common:login')
+            return redirect('app:index')
     else:
         form = UserCreationForm()
     return render(request, 'common/signup.html', {'form': form})
