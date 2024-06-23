@@ -9,6 +9,23 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <div>
+                                <strong>{{ field.label }}</strong>
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div>
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% for question in survey.questions.all %}
                 <div class="card my-3">
                     <div class="card-body">
@@ -28,7 +45,7 @@
                             </div>
                         {% elif question.question_type == "SUBJECTIVE" %}
                             <div class="form-group">
-                                <textarea class="form-control" name="{{ question.id }}" rows="3"></textarea>
+                                <textarea class="form-control" name="{{ question.id }}" rows="3" required></textarea>
                             </div>
                         {% endif %}
                     </div>
