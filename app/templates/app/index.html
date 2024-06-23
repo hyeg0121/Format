@@ -3,7 +3,17 @@
 {% block content %}
     {% include 'app/partials/banner.html' %}
     <div class="container my-3">
-        <div class="my-4">최근 업로드 된 설문조사</div>
+        <div class="my-4 d-flex justify-content-between align-items-center">
+            <div>
+                <form method="get" class="form-inline">
+                    <select name="order_by" class="form-select" onchange="this.form.submit()">
+                        <option value="latest" {% if request.GET.order_by == "latest" %}selected{% endif %}>최신순</option>
+                        <option value="end_date" {% if request.GET.order_by == "end_date" %}selected{% endif %}>설문 마감일 순</option>
+                        <option value="popularity" {% if request.GET.order_by == "popularity" %}selected{% endif %}>인기순</option>
+                    </select>
+                </form>
+            </div>
+        </div>
         <div class="row" style="min-height: 50vh">
             {% for survey in page_obj %}
                 <div class="col-md-4 mb-4">
@@ -27,12 +37,12 @@
             <ul class="pagination pagination-sm justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First">
+                        <a class="page-link" href="?page=1&order_by={{ request.GET.order_by }}" aria-label="First">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&order_by={{ request.GET.order_by }}" aria-label="Previous">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a>
                     </li>
@@ -46,18 +56,18 @@
                     {% if page_obj.number == num %}
                         <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}&order_by={{ request.GET.order_by }}">{{ num }}</a></li>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}&order_by={{ request.GET.order_by }}" aria-label="Next">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&order_by={{ request.GET.order_by }}" aria-label="Last">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

@@ -89,7 +89,10 @@ def survey_delete(request, survey_id):
 
 def survey_search(request):
     query = request.GET.get('q', '')
+
     survey_list = Survey.objects.filter(title__icontains=query)
+    survey_list = [survey for survey in survey_list if survey.is_searchable]
+
     paginator = Paginator(survey_list, 12)  # 페이지 당 12개의 설문조사
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
