@@ -6,8 +6,12 @@ from ..models import Survey, Response
 
 
 @login_required
+@login_required
 def survey_response(request, survey_id):
     survey = get_object_or_404(Survey, id=survey_id)
+
+    if Response.objects.filter(user=request.user, survey=survey):
+        return render(request, 'app/page/response/already_responded.html', {'survey': survey})
 
     if request.method == 'POST':
         form = SurveyResponseForm(request.POST, survey=survey)
