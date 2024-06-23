@@ -1,21 +1,30 @@
 {% load custom_filters %}
 <h6>문항 목록</h6>
-{% for question in survey.questions.all %}
-    <div class="mb-4">
-        <h5>{{ question.title }}</h5>
-        <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
-        {% if question.question_type == "SINGLE_CHOICE" %}
-            <ul>
-                {% with options_list=question.options|load_json %}
-                    {% for option in options_list %}
-                        <li>{{ option }} - {{ statistics|get_item:question.pk|get_item:option|default:0 }} votes</li>
-                    {% endfor %}
-                {% endwith %}
-            </ul>
-        {% endif %}
-    </div>
-    <hr>
-{% endfor %}
+<div class="accordion" id="questionAccordion">
+    {% for question in survey.questions.all %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ forloop.counter }}">
+                    <strong>{{ forloop.counter }} .</strong>{{ question.title }}
+                </button>
+            </h2>
+            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#questionAccordion">
+                <div class="accordion-body">
+                    <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
+                    {% if question.question_type == "SINGLE_CHOICE" %}
+                        <ul>
+                            {% with options_list=question.options|load_json %}
+                                {% for option in options_list %}
+                                    <li>{{ option }} - {{ statistics|get_item:question.pk|get_item:option|default:0 }} votes</li>
+                                {% endfor %}
+                            {% endwith %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% if is_owner %}
-    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-outline-secondary">문항 추가</a>
+    <a href="{% url 'app:create_question' survey.id %}" class="btn btn-outline-secondary mt-4">문항 추가</a>
 {% endif %}
