@@ -27,9 +27,9 @@ def survey_detail(request, survey_id):
     comments = Comment.objects.filter(survey=survey).select_related('user')
     statistics = defaultdict(lambda: defaultdict(int))
 
-    for answer in survey.answers.all():
-        for question_id, response in answer.responses.items():
-            statistics[int(question_id)][response] += 1
+    for response in survey.responses.all():
+        for question_id, value in response.responses.items():
+            statistics[int(question_id)][value] += 1
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
