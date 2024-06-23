@@ -1,4 +1,6 @@
 from collections import defaultdict
+
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..forms import SurveyForm, CommentForm
@@ -83,3 +85,12 @@ def survey_delete(request, survey_id):
         return redirect('app:my_page')
 
     return render(request, 'app/page/survey/survey_delete.html', {'survey': survey})
+
+
+def survey_search(request):
+    query = request.GET.get('q', '')
+    survey_list = Survey.objects.filter(title__icontains=query)
+    paginator = Paginator(survey_list, 12)  # 페이지 당 12개의 설문조사
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'app/page/survey/survey_search.html', {'page_obj': page_obj, 'query': query})

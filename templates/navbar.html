@@ -26,8 +26,9 @@
                 </li>
                 {% endif %}
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="설문조사를 검색하세요!" aria-label="검색">
+            <form class="d-flex" role="search" action="{% url 'app:survey_search' %}" method="get">
+                <input class="form-control me-2" type="search" placeholder="설문조사를 검색하세요!" aria-label="검색" name="q">
+                <button class="btn btn-outline-dark" type="submit" style="width: 6vw">검색</button>
             </form>
         </div>
     </div>
