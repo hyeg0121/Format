@@ -1,10 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
 
-from common import forms
-from common.forms import UserCreationForm, EmailLoginForm
+from common.forms import UserCreationForm, EmailLoginForm, UserChangeForm
 
 
 def signup(request):
@@ -32,5 +31,4 @@ class EmailLoginView(FormView):
             login(self.request, user)
             return redirect('app:index')  # 로그인 후 리디렉션할 URL
         return self.form_invalid(form)
-
 

@@ -17,17 +17,18 @@
                 {% endif %}
 
                 <div class="col-md-3 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ survey.thumbnail.url }}" class="card-img-top" alt="Thumbnail" style="height: 200px; object-fit: cover">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ survey.title }}</h5>
-                            <p class="card-text">{{ survey.description|slice:":100" }}</p>
-                            <a href="{% url 'app:survey_detail' survey.id %}" class="btn btn-primary">자세히 보기</a>
+                    <a href="{% url 'app:survey_detail' survey.id %}" class="text-decoration-none">
+                        <div class="card h-100">
+                            <img src="{{ survey.thumbnail.url }}" class="card-img-top" alt="Thumbnail" style="height: 200px; object-fit: cover">
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">{{ survey.title }}</h5>
+                                <p class="card-text text-dark">{{ survey.description|slice:":100" }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">설문 마감일: {{ survey.end_date }}</small>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">설문 마감일: {{ survey.end_date }}</small>
-                        </div>
-                    </div>
+                    </a>
                 </div>
 
                 {% if forloop.counter|divisibleby:4 or forloop.last %}
