@@ -9,7 +9,11 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ question.title }}</td>
-                <td>{{ question.question_type }}</td>
+                {% if question.question_type == 'SUBJECTIVE' %}
+                    <td>주관식</td>
+                {% else %}
+                    <td>객관식</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
