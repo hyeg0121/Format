@@ -26,6 +26,9 @@
                                class="btn btn-outline-secondary btn-sm">수정하기</a>
                             <a href="{% url 'app:survey_delete' survey.id %}"
                                class="btn btn-outline-secondary btn-sm">삭제하기</a>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="copyLink('{% url 'app:survey_detail' survey.id %}')">
+                                <i class="bi bi-clipboard"></i> 링크 복사
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -36,3 +39,14 @@
 {% else %}
     <p class="text-secondary">아직 만든 설문조사가 없습니다.</p>
 {% endif %}
+<script>
+    function copyLink(link) {
+        const baseUrl = window.location.origin;
+        const fullLink = baseUrl + link;
+        navigator.clipboard.writeText(fullLink).then(function() {
+            alert('링크가 복사되었습니다: ' + fullLink);
+        }, function(err) {
+            console.error('링크 복사 실패: ', err);
+        });
+    }
+</script>
