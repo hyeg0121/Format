@@ -89,7 +89,7 @@ def survey_delete(request, survey_id):
 
     if request.method == 'POST':
         survey.delete()
-        return redirect('app:my_page')
+        return redirect('app:user_info')
 
     return render(request, 'app/page/survey/survey_delete.html', {'survey': survey})
 
