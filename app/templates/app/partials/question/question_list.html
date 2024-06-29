@@ -12,10 +12,11 @@
                 <div class="accordion-body">
                     <p><strong>문항 타입:</strong> {{ question.get_question_type_display }}</p>
                     {% if question.question_type == "SINGLE_CHOICE" %}
-                        <ul>
+                        <canvas id="chart{{ forloop.counter }}"></canvas>
+                        <ul style="display: none;">
                             {% with options_list=question.options|load_json %}
                                 {% for option in options_list %}
-                                    <li>{{ option }} - {{ percentages|get_item:question.pk|get_item:option|default:0|floatformat:1 }}% ({{ statistics|get_item:question.pk|get_item:option|default:0 }}표)</li>
+                                    <li data-option="{{ option }}" data-votes="{{ statistics|get_item:question.pk|get_item:option|default:0 }}" data-percentage="{{ percentages|get_item:question.pk|get_item:option|default:0|floatformat:1 }}"></li>
                                 {% endfor %}
                             {% endwith %}
                         </ul>
@@ -28,3 +29,44 @@
 {% if is_owner %}
     <a href="{% url 'app:create_question' survey.id %}" class="btn btn-outline-secondary mt-4">문항 추가</a>
 {% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        {% for question in survey.questions.all %}
+            {% if question.question_type == "SINGLE_CHOICE" %}
+                var ctx = document.getElementById('chart{{ forloop.counter }}').getContext('2d');
+                var labels = [];
+                var data = [];
+                document.querySelectorAll('#collapse{{ forloop.counter }} ul li').forEach(function (item) {
+                    labels.push(item.dataset.option);
+                    data.push(item.dataset.votes);
+                });
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '투표수',
+                            data: data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            {% endif %}
+        {% endfor %}
+    });
+</script>
