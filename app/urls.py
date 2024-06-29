@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index, user_info, create_survey, create_question, survey_detail, survey_response, survey_update, \
-    survey_delete, comment_update, comment_delete, survey_search, response_update
+    survey_delete, comment_update, comment_delete, survey_search, response_update, response_delete
 
 app_name = 'app'  # 앱 이름 설정
 
@@ -20,4 +20,5 @@ urlpatterns = [
     path('comment/<int:comment_id>/delete', comment_delete, name='comment_delete'),
     # response
     path('response/<int:response_id>/update', response_update, name='response_update'),
+    path('response/<int:response_id>/delete', response_delete, name='response_delete'),
 ]

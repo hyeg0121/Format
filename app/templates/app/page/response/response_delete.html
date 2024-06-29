@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="min-height: 80vh">
+    <h4 class="mt-4 mb-4">응답 삭제</h4>
+    <p>아래 응답을 삭제하시겠습니까?</p>
+    <ul>
+        <li><strong>설문조사: </strong> {{ response.survey.title }}</li>
+        <li><strong>생성일:</strong> {{ response.created_at }}</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">삭제하기</button>
+        <a href="{% url 'app:user_info' %}" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+{% endblock %}

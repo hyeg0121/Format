@@ -23,7 +23,6 @@ def survey_response(request, survey_id):
 
     return render(request, 'app/page/response/survey_response.html', {'survey': survey, 'form': form})
 
-
 @login_required
 def response_update(request, response_id):
     response = get_object_or_404(Response, id=response_id, user=request.user)
@@ -40,3 +39,17 @@ def response_update(request, response_id):
         form = SurveyResponseForm(survey=survey, initial=response.responses)
 
     return render(request, 'app/page/response/response_update.html', {'survey': survey, 'form': form})
+
+
+@login_required
+def response_delete(request, response_id):
+    response = get_object_or_404(Response, id=response_id, user=request.user)
+
+    if request.user != response.user:
+        pass
+
+    if request.method == 'POST':
+        response.delete()
+        return redirect('app:user_info')
+
+    return render(request, 'app/page/response/response_delete.html', {'response': response})
