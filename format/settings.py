@@ -2,24 +2,18 @@ import os, json
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
+import environ
+
+env = environ.Env(DEBUG=(bool, True)) #환경변수를 불러올 수 있는 상태로 세팅
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-secret_file = os.path.join(BASE_DIR, '.secrets.json')
+#환경변수 파일 읽어오기
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, '.env')
+)
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting):
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-
-SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = True
 
@@ -88,12 +82,12 @@ DATABASES = {
                 }
             },
         },
-        'NAME': get_secret("DB_NAME"),
+        'NAME': env("DB_NAME"),
         'CLIENT': {
-            'host': get_secret("DB_HOST"),
-            'port': get_secret("DB_PORT"),
-            'username': get_secret("DB_USER"),
-            'password': get_secret("DB_PASSWORD"),
+            'host': env("DB_HOST"),
+            'port': int(env("DB_PORT")),
+            'username': env("DB_USER"),
+            'password': env("DB_PASSWORD"),
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
         }
