@@ -15,7 +15,7 @@
                         <ul>
                             {% with options_list=question.options|load_json %}
                                 {% for option in options_list %}
-                                    <li>{{ option }} - {{ statistics|get_item:question.pk|get_item:option|default:0 }} votes</li>
+                                    <li>{{ option }} - {{ percentages|get_item:question.pk|get_item:option|default:0|floatformat:1 }}% ({{ statistics|get_item:question.pk|get_item:option|default:0 }}표)</li>
                                 {% endfor %}
                             {% endwith %}
                         </ul>

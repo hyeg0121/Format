@@ -28,10 +28,16 @@ def survey_detail(request, survey_id):
     is_owner = (survey.user == request.user)
     comments = Comment.objects.filter(survey=survey).select_related('user')
     statistics = defaultdict(lambda: defaultdict(int))
+    total_responses = survey.responses.count()
 
     for response in survey.responses.all():
         for question_id, value in response.responses.items():
             statistics[int(question_id)][value] += 1
+
+    percentages = defaultdict(lambda: defaultdict(float))
+    for question_id, counts in statistics.items():
+        for option, count in counts.items():
+            percentages[question_id][option] = (count / total_responses) * 100 if total_responses > 0 else 0
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -48,6 +54,7 @@ def survey_detail(request, survey_id):
         'survey': survey,
         'questions': questions,
         'statistics': statistics,
+        'percentages': percentages,
         'is_owner': is_owner,
         'comments': comments,
         'comment_form': comment_form,
